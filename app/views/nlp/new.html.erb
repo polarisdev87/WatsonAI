@@ -1,0 +1,132 @@
+<% if !params[:data] %>
+
+<!--<link rel="stylesheet" type="text/css" href="http://<%=request.host%>:<%=request.port%>/style.css">-->
+<div class="container">
+  <form action="/nlp/index" method="post">
+
+    <div >
+      <div class="col-25">
+        <label for="content">Content</label>
+      </div>
+      <div class="col-75">
+        <textarea id="data" name="data" placeholder="Write something.." style="height:200px"></textarea>
+
+      </div>
+
+      <div class="col-25"></div><div class="col-75"><input type="checkbox" id="url" name="url" value="url">URL? <div>
+	<input type="hidden" name="url_value" id="url_value">
+    </div>
+    <div >
+      <input type="submit" value="Submit" onclick="check_url();">
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+
+    document.title = "NLP";
+  function check_url()
+{
+
+ if (document.getElementById("url").checked==true)
+	{
+		document.getElementById("url_value").value='true';
+	}
+	else
+	{
+		document.getElementById("url_value").value='false';
+	}
+}
+
+
+</script>
+<%else%>
+
+<%#= p  @response.inspect %>
+<%#=  @response.to_s%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+	$("tr:odd").addClass("odd");
+});
+</script>
+
+
+
+
+<%#=@json2table.html_safe
+
+%>
+<style>
+table {
+	width: 100%;
+	border: 1px solid #cef;
+	text-align: left; }
+th {
+	font-weight: bold;
+	background-color: #acf;
+	border-bottom: 1px solid #cef; }
+td,th {
+	padding: 4px 5px; }
+
+  .odd {
+  	background-color: #def; }
+  .odd td {
+  	border-bottom: 1px solid #cef; }
+</style>
+
+
+<table>
+  <tr>
+    <th>Text Units</th>
+    <th>Text Characters</th>
+    <th>Features</th>
+  </tr>
+ <%= @response.inspect %>
+  <tr><td><%= JSON.parse(@response[1])["usage"]["text_units"]%></td><td><%= JSON.parse(@response[1])["usage"]["text_characters"]%></td>
+    <td><%= JSON.parse(@response[1])["usage"]["features"]%></td></tr>
+
+</table>
+<br>
+<br>
+<br>
+<br>
+
+<table id="data">
+  <tr>
+    <th>Text</th>
+    <th>Sentiment</th>
+    <th>Relavance</th>
+    <th>Emotions</th>
+  </tr>
+  <% @keywords.each_with_index do  |(key,value), index |  %>
+  <tr><td><%= key["text"] %></td><td><%= key["sentiment"] %></td><td><%= key["relevance"] %></td><td><%= key["emotion"] %></td></tr>
+   <%end%>
+     <tr><td colspan="4"><%= table_export_tag('data',{export_link_text: 'Export to CSV'}) %></td></tr>
+</table>
+<br>
+<br>
+<br>
+<br>
+
+
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Text</th>
+    <th>Sentiment</th>
+    <th>Relavance</th>
+    <th>Emotion</th>
+
+    <th>Count</th>
+  </tr>
+  <% @entities.each_with_index do  |(key,value), index |  %>
+  <tr><td><%= key["type"] %></td><td><%= key["text"] %></td><td><%= key["sentiment"] %></td><td><%= key["relevance"] %></td><td><%= key["emotion"] %></td><td><%= key["count"] %></td></tr>
+   <%end%>
+     <tr><td colspan="6"><%= table_export_tag('data',{export_link_text: 'Export to CSV'}) %></td></tr>
+</table>
+
+
+
+<%end%>

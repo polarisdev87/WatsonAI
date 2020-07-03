@@ -1,0 +1,128 @@
+<script>
+
+function sendinvite(){
+
+
+}
+function validateemail(){
+//alert(document.getElementById("inputEmail3").value);
+ var $emailList=document.getElementById("inputEmail3").value.toString().replace(" ", "").split(",")
+ var $emails = $emailList.toString().replace(/\s/g,'').split(",");
+ var $usertype=  $('#usertype').text;
+ alert($usertype);
+//alert($emails[2]);
+
+
+
+
+    $.ajax({
+      url: "/personality/inviteuser",
+      cache: false,
+      type: "POST",
+      data: {emailid : $emails, usertype : $usertype},
+      //dataType: "html"
+      success: function(html){
+      //  $("#results").append(html);
+
+        //document.getElementById("invliteclose");
+      }
+    });
+
+
+
+}
+
+
+
+</script>
+
+<nav class="" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsable">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapsable">
+      <ul class="nav navbar-nav foo" id="menu">
+        <p class="navbar-text">Pick an option:</p>
+        <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Personality
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="/personality/new">New Search</a></li>
+          <li><a href="/personality/list">List Old Searches</a></li>
+
+        </ul>
+      </li>
+      <% if admin_signed_in? %>
+        <ul class="nav navbar-nav navbar-right" align="right">
+        <li><a href="#"  data-toggle="modal" data-target="#invite">Invite Users</a></li>
+      </ul>
+      <%end%>
+      <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">NLP
+      <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="/nlp/new">New Search</a></li>
+        <li><a href="/nlp/list">List Old Searches </a></li>
+
+      </ul>
+    </li>
+
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right" align="right">
+        <li><a href="/admins/sign_out">Log Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div  id="invite" class="modal fade"  tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Add emails divided by comma</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    <form class="form-horizontal" role="form">
+               <div class="form-group">
+                 <label  class="col-sm-2 control-label"
+                           for="inputEmail3">Email</label>
+                 <div class="col-sm-10">
+                     <input type="email" class="form-control"
+                     id="inputEmail3" placeholder="Email"/>
+                 </div>
+
+
+               </div>
+               <div class="dropdown">
+                 <label  class="col-sm-3 control-label"for="usertype">Select User Type</label>
+                   <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">User Type
+                   <span class="caret"></span></button>
+                   <ul class="dropdown-menu">
+                     <li><a href="#">End User</a></li>
+                     <li><a href="#">Staff</a></li>
+
+                   </ul>
+              </div>
+
+    <form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" onclick="validateemail();sendinvite();">Send Invitation</button>
+      <button type="button" id="inviteclose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
+</div>
+
+</script>

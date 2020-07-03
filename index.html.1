@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Watson</title>
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="8Wwifo2I3eepFHCJc1b61d6F2EdfrHxV3WR6reZ6yswR5SAFjoub/sZqryv67EBtQB47kF6ypRp0eMYXIaoc5Q==" />
+    
+
+    <link rel="stylesheet" media="all" href="/assets/application.self-2b0928e28cd2c734e782f5448bef9f7f8725156e192f6cb495fd785c32cb578f.css?body=1" data-turbolinks-track="reload" />
+    <script src="/assets/rails-ujs.self-551fbd47b981dacbb84a270f9123074caf39eb72aaf6f478ab597c6f81435e4b.js?body=1" data-turbolinks-track="reload"></script>
+<script src="/assets/activestorage.self-6e8d967adecc8b2a7259df0f51ef5b6f171c33267c7d149a474beccd90c68697.js?body=1" data-turbolinks-track="reload"></script>
+<script src="/assets/turbolinks.self-2db6ec539b9190f75e1d477b305df53d12904d5cafdd47c7ffd91ba25cbec128.js?body=1" data-turbolinks-track="reload"></script>
+<script src="/assets/action_cable.self-69fddfcddf4fdef9828648f9330d6ce108b93b82b0b8d3affffc59a114853451.js?body=1" data-turbolinks-track="reload"></script>
+<script src="/assets/cable.self-8484513823f404ed0c0f039f75243bfdede7af7919dda65f2e66391252443ce9.js?body=1" data-turbolinks-track="reload"></script>
+<script src="/assets/nlp.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" data-turbolinks-track="reload"></script>
+<script src="/assets/nlu.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" data-turbolinks-track="reload"></script>
+<script src="/assets/personality.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" data-turbolinks-track="reload"></script>
+<script src="/assets/application.self-66347cf0a4cb1f26f76868b4697a9eee457c8c3a6da80c6fdd76ff77e911715e.js?body=1" data-turbolinks-track="reload"></script>
+  </head>
+
+  <body>
+    <link rel="stylesheet" type="text/css" href="http://ai.dominatewithseo.com:3000/style.css">
+<div class="container">
+  <form action="/personality/index" method="post">
+   
+    <div class="row">
+      <div class="col-25">
+        <label for="content">Content</label>
+      </div>
+      <div class="col-75">
+        <textarea id="data" name="data" placeholder="Write something.." style="height:200px"></textarea>
+      </div>
+	<div class="col-25"></div><div class="col-75"><input type="checkbox" id="html" name="html" value="html">html? <div>
+	<input type="hidden" name="html_value" id="html_value">
+    </div>
+    </div>
+    <div class="row">
+      <input type="submit" value="Submit"  onclick="check_html();">
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+  function check_html()
+{
+ 
+ if (document.getElementById("html").checked==true)
+	{
+		document.getElementById("html_value").value='true';
+	}
+	else
+	{
+		document.getElementById("html_value").value='false';
+	}
+}
+
+
+</script>
+
+  </body>
+</html>

@@ -1,0 +1,165 @@
+<style>
+table {
+
+	border: 1px solid #cef;
+	text-align: left; }
+th {
+	font-weight: bold;
+	background-color: #acf;
+	border-bottom: 1px solid #cef; }
+td,th {
+	padding: 4px 5px; }
+
+  .odd {
+  	background-color: #def; }
+  .odd td {
+  	border-bottom: 1px solid #cef; }
+</style>
+
+
+<div class="container">
+	 <% if !params[:id]  %>
+  <table  align='center' class="navigation">
+    <tr>
+      <th>ID</th>
+      <th>Total Count</th>
+      <th>Query</th>
+      <th>Created On</th>
+      <th>Details</th>
+    </tr>
+     <% @personality.each  do | index | %>
+      <tr bgcolor="#FBEBFF" style="background-color: #FBEBFF ;">
+        <td><%= index["id"] %></td>
+        <td><%= index["total_count"] %></td>
+        <td><%= index["query"].to_s[0..101] %>....</td>
+        <td><%= index["created_at"] %></td>
+        <td><a href=/personality/list/<%= index["id"] %> > Details </a></td>
+      </tr>
+      <%end%>
+    </table>
+		<%else%>
+		<script>
+
+		$(document).ready(function(){
+			$("tr:odd").addClass("odd");
+		});
+		</script>
+
+
+
+
+		<%#=@json2table.html_safe
+
+		%>
+		<style>
+		table {
+
+			border: 1px solid #cef;
+			text-align: left; }
+		th {
+			font-weight: bold;
+			background-color: #acf;
+			border-bottom: 1px solid #cef; }
+		td,th {
+			padding: 4px 5px; }
+
+		  .odd {
+		  	background-color: #def; }
+		  .odd td {
+		  	border-bottom: 1px solid #cef; }
+		</style>
+
+
+
+		<table  align='center' class="navigation">
+
+		<tr>
+
+		    <th>Group</th>
+		    <th>Trait</th>
+				<th> Name </th>
+		    <th>Percentile</th>
+
+		  <% @personality.each do  |personality| %>
+		  <tr bgcolor="#FBEBFF" style="background-color: #FBEBFF ;"><td><b><%= personality["cat_type"] %></b><td><%=personality["category"]%></td><td><%= personality["name"]%></td>
+		    <td><%= personality["percentile"].round(2)*100 %></td>
+		 </tr>
+		     <%end%>
+
+
+
+
+
+
+		  <tr >
+		    <!--<th>Trait ID</th> -->
+		    <th><b>Category</b></th>
+		    <th><b>Name </b></th>
+		    <th colspan="2"><b>Percentile</b></th>
+
+
+		  </tr>
+		  <% @needs.each do  |needs | %>
+			<tr bgcolor="#FBEBFF" style="background-color: #FBEBFF ;"><td><b><%= needs["category"] %></td><td><%= needs["name"]%></b></td>
+			 <td colspan="2"><%= needs["percentile"].round(2)*100 %></td>
+	   	</tr>
+		   <%end%>
+
+		  <tr>
+		    <!--<th>Trait ID</th> -->
+		    <th><b>Category</b></th>
+		    <th><b>Name</b></th>
+		    <th colspan="2"><b>Percentile</b></th>
+
+
+		  </tr>
+		  <tr>
+		    <% @values.each do  |values | %>
+				<tr bgcolor="#FBEBFF" style="background-color: #FBEBFF ;"><td><b><%= values["category"] %></td><td><%= values["name"]%></b></td>
+			    <td colspan="2"><%= values["percentile"].round(2)*100 %></td>
+			 </tr>
+		     <%end%>
+
+		     <tr><th align="center" colspan="4"><b>Consumption Preferences</th></tr>
+		    <tr>
+
+		  <% @consumption_preferences.each do  |consumption_preferences |  %>
+			<tr bgcolor="#FBEBFF" style="background-color: #FBEBFF ;"><td><b><%= consumption_preferences["category"].gsub! 'Consumption Preferences - ', '' %></td><td><%= consumption_preferences["name"]%></b></td>
+				<td colspan="2"><%= consumption_preferences["percentile"].round(2)*100 %></td>
+		 </tr>
+		   <%end%>
+		   <tr><td colspan="4"> <%= table_export_tag %> </td></tr>
+		</table>
+
+		<!--<canvas id="myChart" width="400" height="400"></canvas>
+
+		<script>
+		var ctx1 = document.getElementById("myChart");
+
+		var data= {
+		    labels: ['Running', 'Swimming', 'Eating', 'Cycling'],
+		    datasets: [{
+		        data: [20, 10, 4, 2]
+		    }]
+		}
+		var  options = {
+		    scales: {
+		        xAxes: [{
+		            gridLines: {
+		                offsetGridLines: true
+		            }
+		        }]
+		    }
+		}
+		var myRadarChart = new Chart(ctx, {
+		    type: 'radar',
+		    data: data ,
+		    options: options
+		});
+
+
+		</script>
+-->
+<%end%>
+
+</div>

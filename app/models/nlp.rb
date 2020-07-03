@@ -1,0 +1,2 @@
+class Nlp < ApplicationRecord
+end

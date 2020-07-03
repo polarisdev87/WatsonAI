@@ -1,0 +1,96 @@
+class NlpController < ApplicationController
+skip_before_action :verify_authenticity_token  
+def index
+
+   if  params[:data]
+    @endpoint =  "https://gateway.watsonplatform.net/natural-language-understanding/api"
+    username = "d3195126-4fdd-4d3e-8a31-6457c7552208"
+    password = "8Cp451cetvPT"
+ 	require 'rest-client'
+
+    # Set default headers
+    contentType= "Content-Type: application/json"
+    contentLanguage= "en"
+    acceptLanguage = "en"
+
+    # Request the profile
+    data=params[:data]
+    if (params[:url_value]=="true")
+	content="\'url\'=>"  + data;
+    else
+	content="\'text\'=>"+ data;
+    end
+@content ='{ #{data},
+   user: "712ce569-6972-4162-b66f-3ac218f5a623",
+   password: "kcA4GWbvTZpt",
+    features: {
+    "entities": {
+      "emotion": true,
+      "sentiment": true,
+      "limit": 2
+    },
+    "keywords": {
+      "emotion": true,
+      "sentiment": true,
+      "limit": 2
+    }
+  }
+}'
+
+p "hahahahhahahaha"
+p content
+#@content2=JSON.parse(@content)
+@response = RestClient::Request.new({
+      method: :post,
+      url: @endpoint + '/v1/analyze/?version=2018-03-16',
+      user: 'd3195126-4fdd-4d3e-8a31-6457c7552208',
+      password: '8Cp451cetvPT',
+      payload: {'text'=> params[:data],features: {
+    "entities": {
+      "emotion": true,
+      "sentiment": true,
+      "limit": 2
+    },
+    "keywords": {
+      "emotion": true,
+      "sentiment": true,
+      "limit": 2
+    }
+  }}.to_json,
+      headers: { :accept => :json, content_type: :json }
+    }).execute do |response, request, result|
+      case response.code
+      when 400
+        [ :error, response.to_str ]
+      when 200
+        [ :success, response.to_str ]
+      else
+        fail "Invalid response #{response.to_str} received."
+      end
+    end
+ 
+		
+
+
+			
+
+    p @response
+    require 'json2table' # if you've installed the gem
+
+#require 'path/to/lib/json2table.rb'# if you've git clone'd the repo
+
+table_options = {
+  table_style: "border: 1px solid black; max-width: 600px;",
+  table_class: "table table-striped table-hover table-condensed table-bordered",
+  table_attributes: "border=1"
+  }
+  json = @response.to_json
+
+  @json2table =  Json2table::get_html_table(json, table_options)
+  puts @json2table
+     	
+   return @response
+   else
+   end
+end
+end

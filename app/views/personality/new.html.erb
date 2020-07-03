@@ -1,0 +1,178 @@
+<% if !params[:data]  %>
+<!--<link rel="stylesheet" type="text/css" href="http://<%=request.host%>:<%=request.port%>/style.css">-->
+<%#= request.host %>
+<div class="container">
+  <form action="/personality/new" method="post">
+
+    <div >
+      <div class="col-25">
+        <label for="content">Content</label>
+      </div>
+      <div class="col-75">
+        <textarea id="data" name="data" placeholder="Write something.." style="height:200px"></textarea>
+      </div>
+	<div class="col-25"></div><div class="col-75"><input type="checkbox" id="html" name="html" value="html">html? <div>
+	<input type="hidden" name="html_value" id="html_value">
+    </div>
+    </div>
+    <div >
+      <input type="submit" value="Submit"  onclick="check_html();">
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+    document.title = "Personality Analysis";
+  function check_html()
+{
+
+ if (document.getElementById("html").checked==true)
+	{
+		document.getElementById("html_value").value='true';
+	}
+	else
+	{
+		document.getElementById("html_value").value='false';
+	}
+}
+
+
+</script>
+<%else%>
+
+
+
+<%#=  @response.body %>
+
+
+<script>
+
+$(document).ready(function(){
+	$("tr:odd").addClass("odd");
+});
+</script>
+
+
+
+
+<%#=@json2table.html_safe
+
+%>
+<style>
+table {
+
+	border: 1px solid #cef;
+	text-align: left; }
+th {
+	font-weight: bold;
+	background-color: #acf;
+	border-bottom: 1px solid #cef; }
+td,th {
+	padding: 4px 5px; }
+
+  .odd {
+  	background-color: #def; }
+  .odd td {
+  	border-bottom: 1px solid #cef; }
+</style>
+
+
+
+<table  align='center' class="navigation">
+
+<tr>
+
+    <th>Group</th>
+    <th>Trait</th>
+    <th>Percentile</th>
+<%= puts @response.inspect %>
+  <% @personality.each_with_index do  |(key,value), index | %>
+  <tr bgcolor="#FBEBFF" style="background-color: #FBEBFF ;"><td><b>Big 5</b></td><td><b><%= key["name"] %><%@trait_name= key["name"]%></b></td>
+    <td><%= key["percentile"].round(2)*100 %></td></tr>
+  <% key["children"].each_with_index do |(key,value,index)|%>
+     <tr ><td> Big 5 - <%= @trait_name %></td><td><%= key["name"] %></td><td><%= key["percentile"].round(2)*100 %></td></tr>
+     <%end%>
+
+
+  <!--<td><%= key["children"] %></td></tr>-->
+   <%end%>
+  <tr><td></td></tr>
+<%#= table_export_tag({export_link_text: 'Export to CSV'}) %>
+
+  <tr bgcolor="#FBEBFF" style="background-color: #FBEBFF ;">
+    <!--<th>Trait ID</th> -->
+    <td><b>Category</b></td>
+    <td><b>Name </b></td>
+    <td><b>Percentile</b></td>
+  <!--  <th>Raw Score</th>
+    <th>Significant</th>-->
+
+  </tr>
+  <% @needs.each_with_index do  |(key,value), index | %>
+  <tr><!--<td><%= key["trait_id"] %></td>--><td><%= key["category"] %></td><td><%= key["name"] %></td><td><%= key["percentile"].round(2) %></td>
+    <!--<td><%= key["raw_score"] %></td>
+  <td><%= key["significant"] %></td> --></tr>
+   <%end%>
+
+  <tr bgcolor="#FBEBFF" style="background-color: #FBEBFF ;">
+    <!--<th>Trait ID</th> -->
+    <td><b>Category</b></td>
+    <td><b>Name</b></td>
+    <td><b>Percentile</b></td>
+  <!--  <th>Raw Score</th>
+    <th>Significant</th>-->
+
+  </tr>
+  <tr>
+    <% @values.each_with_index do  |(key,value), index | %>
+    <tr><!--<td><%= key["trait_id"] %></td>--><td><%= key["category"] %></td><td><%= key["name"] %></td><td><%= key["percentile"].round(2) %></td>
+      <!--<td><%= key["raw_score"] %></td>
+    <td><%= key["significant"] %></td> --></tr>
+     <%end%>
+
+     <tr><td align="center" colspan="3"><b>Consumption Preferences</td></tr>
+    <tr>
+    <!--<th>Consumption Preference Category Id</th>
+    <th>Name</th>
+    <th colspan="4">Score</th>
+  </tr>-->
+  <% @consumption_preferences.each_with_index do  |(key,value), index |  %>
+  <% @category='Consumption Preferences - '+key["name"]%>
+   <% key["consumption_preferences"].each_with_index do |(key,value,index)|%>
+      <td> <%= @category  %></td>  <td> <%= key["name"] %></td><td><%= key["score"] %></tr>
+      <%end%>
+   <!--<td><%= key["score"] %></td></tr>-->
+   <%end%>
+   <tr><td colspan="3"> <%= table_export_tag %> </td></tr>
+</table>
+<%#= table_export_tag({,export_link_text: 'Export to CSV'}) %>
+<%#= table_export_tag %>
+<canvas id="myChart" width="400" height="400"></canvas>
+
+<script>
+var ctx1 = document.getElementById("myChart");
+
+var data= {
+    labels: ['Running', 'Swimming', 'Eating', 'Cycling'],
+    datasets: [{
+        data: [20, 10, 4, 2]
+    }]
+}
+var  options = {
+    scales: {
+        xAxes: [{
+            gridLines: {
+                offsetGridLines: true
+            }
+        }]
+    }
+}
+var myRadarChart = new Chart(ctx, {
+    type: 'radar',
+    data: data ,
+    options: options
+});
+
+
+</script>
+
+<%end%>

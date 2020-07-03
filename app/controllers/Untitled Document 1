@@ -1,0 +1,60 @@
+class NlpController < ApplicationController
+skip_before_action :verify_authenticity_token  
+def index
+
+   if  params[:data]
+    @endpoint =  "https://gateway.watsonplatform.net/natural-language-understanding/api"
+    @username = "d3195126-4fdd-4d3e-8a31-6457c7552208"
+    @password = "8Cp451cetvPT"
+ 
+
+    # Set default headers
+    contentType= "Content-Type: application/json"
+    contentLanguage= "en"
+    acceptLanguage = "en"
+
+    # Request the profile
+    data=params[:data]
+
+@content ='{
+  "text": "IBM is an American multinational technology company headquartered in Armonk, New York, United States, with operations in over 170 countries.",
+  "features": {
+    "entities": {
+      "emotion": true,
+      "sentiment": true,
+      "limit": 2
+    },
+    "keywords": {
+      "emotion": true,
+      "sentiment": true,
+      "limit": 2
+    }
+  }
+}'
+@content2=JSON.parse(@content)
+p 'hahahahahahhahahahah'
+p @content2
+
+ url= @endpoint + '/v1/analyze?version=2018-03-16'
+    @response = Excon.post(url,
+                        :body     => @content2,
+                        :headers  => {
+                          "Content-Type"     => contentType,
+                          "Content-Language" => contentLanguage,
+                          "Accept-Language"  => acceptLanguage
+                        },
+                        :user     => @username,
+                        :password => @password,
+			:query=> @content
+			
+
+
+			)
+
+    p @response.body.to_json
+     	
+   return response.body
+   else
+   end
+end
+end
